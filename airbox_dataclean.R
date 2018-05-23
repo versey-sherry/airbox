@@ -60,7 +60,7 @@ airbox_processed <- airbox_processed[-11]
 write.csv(airbox_processed, "airbox_processed.csv")
 
 #remove taiwan shapefile and use ggmap
-map <- get_map(location = "taiwan", zoom = 8, maptype = "terrain")
+map <- get_map(location = "taiwan", zoom = 7, maptype = "terrain")
 
 #check less than 0 degree points
 temp <- airbox_processed[airbox_processed$Temperature <= 0, ]
@@ -89,7 +89,7 @@ plot(p1, main = "Humidity density graph", xlab = "Humidity", col = rgb(1, 0, 1, 
 subset_temp <- airbox_processed[airbox_processed$Humidity <= -10 | airbox_processed$Humidity >= 200, ]
 airbox_processed <- airbox_processed[airbox_processed$Humidity > -10 & airbox_processed$Humidity < 200, ]
 
-#Spatial and Temporal Anomoly dection
+#Spatial and Temporal Anomaly dection
 #Some devices have more than one locations so device id doesn't bear unique geocoding info
 length(unique(airbox_processed$device_id))
 temp <- aggregate(airbox_processed$lat, by = list(airbox_processed$device_id), unique)
@@ -97,9 +97,29 @@ temp[order(lengths(temp$x), decreasing = TRUE), ]
 sum(lengths(temp$x) >1)
 temp[lengths(temp$x) ==max(lengths(temp$x)), ]
 
-location <- airbox_processed[c("device_id","lat", "lon")]
-location <- unique(location[c("lat", "lon")])
+#find spastial anomaly radius range.
+station <- airbox_processed[c("device_id","lat", "lon")]
+station <- station[!duplicated(paste(station$lat, station$lon)), ]
+ggmap(map) + 
+  geom_point(
+    aes(x = lon, y = lat), color = "black",
+    data = station, size = 0.2, na.rm = TRUE
+  )
 
+#sstime <- Sys.time()
+#find the distance for every two stations
+station_distance <- distm(station[c("lon","lat")], fun = distHaversine)/1000
+#Sys.time() - sstime #Time difference of 7.971666 secs
+p1 <- hist(station_distance[station_distance < 350], breaks = 20)
+p1$counts <- p1$density
+p2 <- density(station_distance[station_distance < 350], bw = 15)
+plot(p1, main = "Station distance density graph", xlab = "Station distance", col = rgb(1, 0, 1, 1/4))
+lines(p2, col = rgb(1, 0, 1, 1))
+
+#use the first peak
+p2 <- cbind(p2$x, p2$y)
+#find the distance that bears the first negative diff
+radius <- round(p2[which(diff(p2[, 2], 1) <= 0)[1], 1])
 
 
 
