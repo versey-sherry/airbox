@@ -14,7 +14,12 @@ copytable <- function(table){
   close(clip)
 }
 
-date <- c()
+avg_diff <- function(list){
+  list <- sort(list, decreasing = FALSE)
+  avg <- mean(diff(list,1))
+  return(avg)
+}
+
 exclude <- c()
 airbox_head <- c("Date", "Time", "device_id", "PM2.5", "PM10", "PM1", "Temperature", "Humidity", "lat", "lon")
 taiwan <- readOGR("/Users/sherry/Desktop/taiwan_airpollution/gadm36_TWN_shp/gadm36_TWN_0.shp")
@@ -32,7 +37,6 @@ for (a in 0:29){
   #stime <- Sys.time()
   airbox_raw <- read.csv("AirBox_v2.csv", stringsAsFactors = FALSE, header = FALSE, skip = a*1000000+2, nrow = 1000000)
   names(airbox_raw) <- airbox_head
-  date <- c(date, unique(airbox_raw$Date))
   airbox_raw <- airbox_raw[airbox_raw$lat >= -90 & airbox_raw$lat <= 90 & airbox_raw$lon <= 180 & airbox_raw$lon >= -180, ]
   loc <- airbox_raw[c("device_id", "lat", "lon")]
   coordinates(loc) <- ~lon+lat
@@ -54,10 +58,9 @@ for (a in 0:29){
   #Sys.time() - stime
 }
 
-date <- unique(date)
+date <- unique(airbox_processed$Date)
 date <- as.Date(date)
 airbox_processed <- airbox_processed[-11]
-write.csv(airbox_processed, "airbox_processed.csv")
 
 #remove taiwan shapefile and use ggmap
 map <- get_map(location = "taiwan", zoom = 7, maptype = "terrain")
@@ -97,6 +100,7 @@ temp[order(lengths(temp$x), decreasing = TRUE), ]
 sum(lengths(temp$x) >1)
 temp[lengths(temp$x) ==max(lengths(temp$x)), ]
 
+
 #find spastial anomaly radius range.
 station <- airbox_processed[c("device_id","lat", "lon")]
 station <- station[!duplicated(paste(station$lat, station$lon)), ]
@@ -121,8 +125,57 @@ p2 <- cbind(p2$x, p2$y)
 #find the distance that bears the first negative diff
 radius <- round(p2[which(diff(p2[, 2], 1) <= 0)[1], 1])
 
+#temperal data processing
+airbox_processed$unix_time <- paste(airbox_processed$Date, airbox_processed$Time, "GMT")
+airbox_processed$unix_time <- as.numeric(as.POSIXct(airbox_processed$unix_time))
 
+#Duplicate in data
+airbox_processed$ref <- paste(airbox_processed$device_id, airbox_processed$unix_time)
+airbox_processed <- airbox_processed[!duplicated(airbox_processed$ref), ]
+airbox_processed <- airbox_processed[-12]
+#write.csv(airbox_processed, "airbox_processed.csv")
 
+#temporal detection
+airbox_processed <- airbox_processed[order(airbox_processed$device_id, airbox_processed$unix_time), ]
+#keep track of the missing value
+device_id <- unique(airbox_processed$device_id)
+na_stat <- c()
+temporal_anomaly <- c()
+#threshold for continue time is 450s.
+interval <- 450
+#determine a good abnormal pm2.5 diff threshold
+a = 1
+for (a in 1:length(device_id)){
+  temp <- airbox_processed[airbox_processed$device_id == device_id[a], ]
+  temp$time_diff <- diff(c(0, temp$unix_time), 1)
+  temp <- temp[temp$time_diff <= interval]
+  temp$temperal_anomaly[temp$lowtime_diff == FALSE] <- NA
+  temp$temperal_anomaly[temp$lowtime_diff == TRUE & temp$pm25_diff == FALSE] <- TRUE
+  temp$temperal_anomaly[temp$lowtime_diff == TRUE & temp$pm25_diff == TRUE] <- FALSE
+  temporal_anomaly <- c(temporal_anomaly, temp$temperal_anomaly)
+  na_stat <- c(na_stat, round(sum(temp$lowtime_diff)/length(temp$lowtime_diff), 2))
+}
+
+a = 1
+for (a in 1:length(device_id)){
+  temp <- airbox_processed[airbox_processed$device_id == device_id[a], ]
+  temp$time_diff <- diff(c(0, temp$unix_time), 1)
+  temp$pm25_diff <- diff(c(0, temp$PM2.5), 1)
+  temp$lowtime_diff <- temp$time_diff <= interval
+  temp$lowpm_diff <- abs(temp$pm25_diff) <=2
+  temp$temperal_anomaly[temp$lowtime_diff == FALSE] <- NA
+  temp$temperal_anomaly[temp$lowtime_diff == TRUE & temp$pm25_diff == FALSE] <- TRUE
+  temp$temperal_anomaly[temp$lowtime_diff == TRUE & temp$pm25_diff == TRUE] <- FALSE
+  temporal_anomaly <- c(temporal_anomaly, temp$temperal_anomaly)
+  na_stat <- c(na_stat, round(sum(temp$lowtime_diff)/length(temp$lowtime_diff), 2))
+}
+airbox_processed$temporal_anomaly <- temporal_anomaly
+count <- table(airbox_processed$temporal_anomaly, useNA = "always")/length(airbox_processed$temporal_anomaly)
+na_stat <- data.frame(device_id, na_stat)
+#barplot(count, main = "Temporal Anomaly", col = rgb(1, 0, 1, 1/4))
+
+temp <- airbox_processed[airbox_processed$temporal_anomaly == TRUE & !is.na(airbox_processed$temporal_anomaly), ]
+temp[3034570:3034585, ]
 
 
 
