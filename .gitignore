@@ -6,3 +6,16 @@ AirBox_v2.csv
 airbox_processed.csv
 spatial_extra.csv
 
+MERRA2_400.instM_2d_asm_Nx.201701.SUB.nc4
+MERRA2_400.instM_2d_asm_Nx.201702.SUB.nc4
+MERRA2_400.instM_2d_asm_Nx.201703.SUB.nc4
+MERRA2_400.instM_2d_asm_Nx.201704.SUB.nc4
+MERRA2_400.instM_2d_asm_Nx.201705.SUB.nc4
+MERRA2_400.instM_2d_asm_Nx.201706.SUB.nc4
+MERRA2_400.instM_2d_asm_Nx.201707.SUB.nc4
+MERRA2_400.instM_2d_asm_Nx.201708.SUB.nc4
+MERRA2_400.instM_2d_asm_Nx.201709.SUB.nc4
+MERRA2_400.instM_2d_asm_Nx.201710.SUB.nc4
+MERRA2_400.instM_2d_asm_Nx.201711.SUB.nc4
+MERRA2_400.instM_2d_asm_Nx.201712.SUB.nc4
+loc_windspeed.csv
