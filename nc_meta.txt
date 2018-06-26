@@ -1,14 +1,7 @@
-File MERRA2_400.instM_2d_asm_Nx.201701.SUB.nc4 (NC_FORMAT_NETCDF4):
-
-     2 variables (excluding dimension variables):
-        float U50M[lon,lat,time]   (Chunking: [13,21,1])  (Compression: shuffle,level 1)
-            long_name: eastward_wind_at_50_meters
-            units: m s-1
-            _FillValue: 999999986991104
-            missing_value: 999999986991104
-            fmissing_value: 999999986991104
-            vmax: 999999986991104
-            vmin: -999999986991104
+File MERRA2_4 [1] "Date"                    "Time"                    "device_id"               "PM2.5"                   "PM10"                    "PM1"                    
+ [7] "Temperature"             "Humidity"                "lat"                     "lon"                     "unix_time"               "temporal_anomaly"       
+[13] "time_panel"              "spatial_relative_degree" "spatial_anomaly"         "sp_tem_anomaly"          "agwind"                 
+86991104
         float V50M[lon,lat,time]   (Chunking: [13,21,1])  (Compression: shuffle,level 1)
             long_name: northward_wind_at_50_meters
             units: m s-1
