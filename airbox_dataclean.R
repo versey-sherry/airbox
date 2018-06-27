@@ -8,8 +8,8 @@ library(ggmap)
 library(doParallel)
 library(foreach)
 
-cl <- makePSOCKcluster(detectCores() - 1)
-registerDoParallel(cl)
+#cl <- makePSOCKcluster(detectCores() - 1)
+registerDoParallel(4)
 
 setwd("/Users/sherry/Desktop/taiwan_airpollution/airbox")
 
@@ -116,12 +116,11 @@ airbox_processed <- airbox_processed[airbox_processed$Humidity > -10 & airbox_pr
 
 #Spatial and Temporal Anomaly dection
 #Some devices have more than one locations so device id doesn't bear unique geocoding info
-length(unique(airbox_processed$device_id))
+#length(unique(airbox_processed$device_id))
 temp <- aggregate(airbox_processed$lat, by = list(airbox_processed$device_id), unique)
 temp[order(lengths(temp$x), decreasing = TRUE), ]
 sum(lengths(temp$x) >1)
 temp[lengths(temp$x) ==max(lengths(temp$x)), ]
-
 
 #find spastial anomaly radius range.
 station <- airbox_processed[c("device_id","lat", "lon")]
@@ -224,10 +223,10 @@ timeslice_length <- aggregate(airbox_processed$device_id, by = list(airbox_proce
 time_panel <- unique(airbox_processed$time_panel)
 airbox_processed <- airbox_processed[order(airbox_processed$time_panel), ]
 #stime <- Sys.time()
-spatial_anomaly <- foreach(a = 1:length(time_panel), .combine = c, .packages = "geosphere") %dopar% spatial_dectect(a, airbox_processed, time_panel)
+spatial_anomaly <- foreach(a = 1:length(time_panel), .combine = c, .packages = c("geosphere", "sp")) %dopar% spatial_dectect(a, airbox_processed, time_panel)
 #Sys.time() - stime
 #summary(spatial_anomaly)
-hist(abs(spatial_anomaly)[which(abs(spatial_anomaly) < 10)], main = "Histgram of abs less than 10", xlab = "abs")
+#hist(abs(spatial_anomaly)[which(abs(spatial_anomaly) < 10)], main = "Histgram of abs less than 10", xlab = "abs")
 #spatial anomaly threshold is abs more than 4
 spatial_relative_degree <- spatial_anomaly
 spatial_relative_degree[spatial_relative_degree > 4] <- "High"

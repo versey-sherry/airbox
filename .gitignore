@@ -20,3 +20,4 @@ MERRA2_400.instM_2d_asm_Nx.201711.SUB.nc4
 MERRA2_400.instM_2d_asm_Nx.201712.SUB.nc4
 loc_windspeed.csv
 coalplant_stat.csv
+plant_distance.csv
