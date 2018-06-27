@@ -9,7 +9,7 @@ library(doParallel)
 library(foreach)
 
 #cl <- makePSOCKcluster(detectCores() - 1)
-registerDoParallel(4)
+registerDoParallel(7)
 
 setwd("/Users/sherry/Desktop/taiwan_airpollution/airbox")
 

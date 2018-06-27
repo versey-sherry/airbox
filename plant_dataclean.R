@@ -18,9 +18,17 @@ coal_plant <- data.frame(name <- c("Linkou", "Taichung", "Hsinta", "Talin", "Hop
 names(coal_plant) <- c("name", "lat", "lon")
 plant_capacity <- read.csv("coalplant_stat.csv", stringsAsFactors = FALSE)
 
+map <- get_map(location = "taiwan", zoom = 7, maptype = "terrain")
+ggmap(map) + 
+  geom_point(
+    aes(x = lon, y = lat, shape = "b"), color = "black", 
+    data = coal_plant, alpha = 1, na.rm = TRUE
+  )
+
 #summary(plant_capacity)
 
 airbox_processed <- airbox_processed[order(airbox_processed$unix_time, airbox_processed$device_id), ]
+
 #create data frame of date and capacity
 linkou <- cbind(plant_capacity[1], plant_capacity$Linkou)
 names(linkou) <- c("Date", "linkou_cap")
@@ -48,8 +56,10 @@ change <- c(NA, diff(mailiao[[2]], 1, 1))
 mailiao$mailiao_change <- change
 
 plant_data <- cbind(linkou, taichung[2:3], hsinta[2:3], talin[2:3], hoping[2:3], mailiao[2:3])
+plant_data <- 
 
 date <- data.frame(airbox_processed$Date)
+
 names(date) <- "Date"
 plant_data <- merge(date, plant_data, by = "Date")
 airbox_processed <- cbind(airbox_processed, plant_data)
