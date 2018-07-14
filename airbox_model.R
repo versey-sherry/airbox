@@ -21,8 +21,12 @@ first_plant <- cbind(first_min, apply(data.frame(dist_slice == first_min) * cap_
 names(first_plant) <- c("first_dist", "first_cap", "first_change")
 dist_slice[dist_slice == first_min] <- NA
 second_min <- apply(dist_slice, 1, function(x) {min(x, na.rm = TRUE)})
+dist_slice <- plant_data[1:6]
 second_plant <- cbind(second_min, apply(data.frame(dist_slice == second_min) * cap_slice, 1, sum), apply(data.frame(dist_slice == second_min) * cap_change, 1, sum))
 names(second_plant) <- c("second_dist", "second_cap", "second_change")
 model_data <- cbind(model_data[1:11], first_plant, second_plant)
+#write.csv(model_data, "model_data.csv")
 
-l1 <- lm(model_data$PM2.5 ~ model_data$)
+
+l1 <- lm(PM2.5 ~ first_min + first_cap + second_min + second_cap, data = model_data)
+summary(l1)
