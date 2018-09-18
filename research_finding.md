@@ -66,7 +66,13 @@ To find the threshold radius to determine neighboring points for a target point,
 
 ![point locations](https://github.com/versey-sherry/airbox/blob/master/pics/Picture2.png)
 
-The distance between two points is calculated with Haversine and distances less than 350km are plotted onto a histogram with a kernel density estimation.
+The distance between two points is calculated with Haversine and distances less than 350km are plotted onto a histogram with a kernel density estimation. The first peak of the graph represents 23km as shown in the plot. Therefore, 23km is selected to be the max value for the search of best threshold radius.
+
+![histogram](https://github.com/versey-sherry/airbox/blob/master/pics/Picture3.png)
+
+If target monitoring point has less than 3 other monitoring points with n km radius, then this target point will be a loner with no neighbors. The percentage of loner points increases when n decreases so an optimal n needs to be small enough but not too small that the percentage of loner points is too high. Inspired by elbow chart commonly used in finding optimal cluster numbers, a sequence of numbers ranges from 1km to 23km by 0.5km, is used to check the percentage of loner points.
+
+![elbow distance](https://github.com/versey-sherry/airbox/blob/master/pics/Picture4.png)
 
 
 
