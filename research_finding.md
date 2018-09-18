@@ -53,12 +53,24 @@ Distance between all coal-fired plants and monitoring points are calculated with
 
 ### Hypotheses
 * H1: Ceteris paribus, the level of PM2.5 is positively correlated with the running capacity of the closest coal-fired plant.
+Air pollution from coal-fired plants usually results from the burning of coal. Therefore, the more capacity the power plant is running, the more air pollution it would produce.
 
-* H1: Ceteris paribus, the level of PM2.5 is positively correlated with the running capacity of the closest coal-fired plant.
+* H2a: Ceteris paribus, the level of P2.5 is positively correlated with the current day change of running capacity of the closest coal-fired plant.
 
-* H1: Ceteris paribus, the level of PM2.5 is positively correlated with the running capacity of the closest coal-fired plant.
+* H2b: Ceteris paribus, the level of P2.5 is positively correlated with the previous day change of running capacity of the closest coal-fired plant.
 
-* H1: Ceteris paribus, the level of PM2.5 is positively correlated with the running capacity of the closest coal-fired plant.
+* H3a: Ceteris paribus, the level of PM2.5 is positively correlated with the monitoring point wind speed.
+
+* H3b: Ceteris paribus, the level of PM2.5 is negatively correlated with the distance between monitoring points and closest coal-fired plant.
+In [Jinghua Wang and Susumu Ogawa's research](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC4555266/
+), they identify threshold wind speed for the relations between wind speed and level of PM2.5. When wind speed is over 3m/s, level of PM2.5 is positively correlated with wind speed but the oposite when wind speed is less than 3m/s. From the summary of data, average wind speed is 4.76m/s, therefore, it is hypothesized that the level of PM2.5 is positively correlated with the monitoring point wind speed and negatively correlated with the distance between monitoring points and closest coal-fired plant.
+
+### Result and Discussion
+Result from random effect panel data model is the following:
+![table](https://github.com/versey-sherry/airbox/blob/master/pics/Picture7.png)
+
+From the table above, we can accept H1, H2b, H3a and H3b but reject H2a. 
+
 ### Conclusions
 From the random effect panel data model, the running capacity of closest coal-fired plant is positively correlated with the level of PM2.5. The previous day change of running capacity is positively correlated with the level of PM2.5, which may indicate that the effect from change in running capacity may be delayed.
 
