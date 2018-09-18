@@ -44,11 +44,24 @@ Using the same concept as elbow chart, the elbow part contains the optimal numbe
 #### Coal-fired Plant Operation Data
 This research uses 2017 coal-fired operation data from [Taipower](https://www.taipower.com.tw/tc/page.aspx?mid=210&cid=340&cchk=eac92988-526f-44e3-a911-1564395de297). Change in daily capacity difference is calculatd to be the current day change of target day, and the change of previous day is assigned to be the previous day change of target day.
 
-![elbow distance](https://github.com/versey-sherry/airbox/blob/master/pics/Picture5.png)
+![power plant](https://github.com/versey-sherry/airbox/blob/master/pics/Picture5.png)
+
 Distance between all coal-fired plants and monitoring points are calculated with Haversine to find the closest coal-fired plant and the second closest coal-fired plant for the monitoring points.
 
 #### Wind Speed Data
 [2017 Monthly wind speed data from NASA](https://disc.gsfc.nasa.gov/daac-bin/FTPSubset2.pl) is used in this research. The aggreagated wind speeds at all monitoring point and coal-fired plant locations are calculated.
 
+### Hypotheses
+* H1: Ceteris paribus, the level of PM2.5 is positively correlated with the running capacity of the closest coal-fired plant.
+
+* H1: Ceteris paribus, the level of PM2.5 is positively correlated with the running capacity of the closest coal-fired plant.
+
+* H1: Ceteris paribus, the level of PM2.5 is positively correlated with the running capacity of the closest coal-fired plant.
+
+* H1: Ceteris paribus, the level of PM2.5 is positively correlated with the running capacity of the closest coal-fired plant.
+### Conclusions
+From the random effect panel data model, the running capacity of closest coal-fired plant is positively correlated with the level of PM2.5. The previous day change of running capacity is positively correlated with the level of PM2.5, which may indicate that the effect from change in running capacity may be delayed.
+
 ### Future Work
 More accurate wind speed should be used to improve the accuracy of the model and effected wind speed should be calculated by taking the wind speed projected along the straight line connecting coal-fired plants and the monitoring points. If possible, 3D geographic information into consideration, maybe some more control variables into the model.
+
