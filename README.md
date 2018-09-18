@@ -12,7 +12,7 @@ There are more than 2,000 Airbox devices set up in Taiwan and the device returns
 According to Taiwan Energy White Paper coal-fired power production made up 45.4% of Taiwan’s total power production. Coal power is one of the main reasons for air pollution and climate change. Faced with the challenge of dealing with climate change and air pollution, government all over the world are taking active measures to decrease the dependency of coal power in power production. Although the local government in Taiwan has announced that it would take actions to accelerate energy transformation and boost renewable energy development, coal power is still the main source of Taiwan’s power production. Therefore, I analyze the relations between the operation of coal-fired plants and the air pollution using Airbox data.
 
 ## Research Findings and Future Work
-The paper was originally written in Chinese and presented at LASS annual gathering. I've translated the interesting part of it and put the translated [research findings here](https://github.com/versey-sherry/airbox/blob/master/research_finding.md)
+The paper was originally written in Chinese and presented at LASS annual gathering. I've translated the interesting part of it and put the translated [research findings here](https://github.com/versey-sherry/airbox/blob/master/research_finding.md).
 
 I'd like to improve the model by using more accurate wind speed and calculate the wind speed effect by taking the wind speed projected along the straight line connecting coal-fired plants and the monitoring points. If possible, I'd like to take 3D geographic information into consideration, maybe some more control variables into the model.
 
