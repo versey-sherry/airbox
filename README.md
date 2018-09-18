@@ -16,6 +16,8 @@ The paper was originally written in Chinese and presented at LASS annual gatheri
 
 I'd like to improve the model by using more accurate wind speed and calculate the wind speed effect by taking the wind speed projected along the straight line connecting coal-fired plants and the monitoring points. If possible, I'd like to take 3D geographic information into consideration, maybe some more control variables into the model.
 
+Air pollution has no borders and environmental protection work should have no border. It is sad for me to see that people couldn't work together for the common future of mankind and nature because of a collective imaginary structure called politics. Environmental issues should not be political, at least as an idealist, this is what I believe.
+
 ## Authors
 
 * **Sherry** - *Initial work* - [versey-sherry](https://github.com/versey-sherry/)
