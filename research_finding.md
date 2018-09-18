@@ -21,7 +21,7 @@ There are in total 29,915,720 entries in the raw data. After cleaning up the poi
 
 If the absolute difference between two consecutive entries is more than the PM2.5 threshold value, the later one will be considered as a temporal anomaly.
 
-Since the time difference between two consecutive entries varies, a histogram of time differences is examined to find the proper threshold time difference to realistically see two entries as consecutive. The threshold time difference chosen in this research is 450s and the same method is used to determine the PM2.5 threshold value.
+Since the time difference between two consecutive entries varies, a histogram of time differences is examined to find the proper threshold time difference to realistically see two entries as consecutive. The threshold time difference chosen in this research is 450s and the same method is used to determine the PM2.5 threshold value, which is 2mg/m^3.
 
 * Spatial Anomaly
 
@@ -74,7 +74,16 @@ If target monitoring point has less than 3 other monitoring points with n km rad
 
 ![elbow distance](https://github.com/versey-sherry/airbox/blob/master/pics/Picture4.png)
 
+Using the same concept as elbow chart, the elbow part contains the optimal number for n, and after n=3, the decrease rate of percentage becomes slower. So 3km is used to determine neighboring points and 4mg/m^3.
 
+#### Coal-fired Plant Operation Data
+This research uses 2017 coal-fired operation data from [Taipower](https://www.taipower.com.tw/tc/page.aspx?mid=210&cid=340&cchk=eac92988-526f-44e3-a911-1564395de297). Change in daily capacity difference is calculatd to be the current day change of target day, and the change of previous day is assigned to be the previous day change of target day.
 
+![elbow distance](https://github.com/versey-sherry/airbox/blob/master/pics/Picture5.png)
+Distance between all coal-fired plants and monitoring points are calculated with Haversine to find the closest coal-fired plant and the second closest coal-fired plant for the monitoring points.
 
+#### Wind Speed Data
+[2017 Monthly wind speed data from NASA](https://disc.gsfc.nasa.gov/daac-bin/FTPSubset2.pl) is used in this research. The aggreagated wind speeds at all monitoring point and coal-fired plant locations are calculated.
 
+### Future Work
+More accurate wind speed should be used to improve the accuracy of the model and effected wind speed should be calculated by taking the wind speed projected along the straight line connecting coal-fired plants and the monitoring points. If possible, 3D geographic information into consideration, maybe some more control variables into the model.
