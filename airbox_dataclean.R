@@ -1,3 +1,6 @@
+#Cleaning raw data for later analysis
+#Clean up the abnormal points generate tags for anomalies
+
 library(geosphere)
 library(raster)
 library(sp)

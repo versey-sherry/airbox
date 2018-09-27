@@ -1,3 +1,4 @@
+#Explore the possiblility of this dataset and do some basic plotting
 library(geosphere)
 library(ggplot2)
 library(ggmap)
